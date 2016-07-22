@@ -10,7 +10,7 @@ use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
- * Description of PushNotificationMapperFactory
+ * Description of MulticastMapperFactory
  *
  * @author David Bwire <israelbwire@gmail.com>
  */
