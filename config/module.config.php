@@ -1,8 +1,10 @@
 <?php
+use CloudMessaging\Controller;
 
 return [
     'service_manager' => [
         'factories' => [
+            Controller\IndexController::class => Controller\IndexControllerFactory::class,
         ]
     ],
     'cloud_messaging' => [
