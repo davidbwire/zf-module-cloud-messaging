@@ -1,10 +1,18 @@
 <?php
-use CloudMessaging\Controller;
 
 return [
     'service_manager' => [
         'factories' => [
-            Controller\IndexController::class => Controller\IndexControllerFactory::class,
+        ],
+    ],
+    'controllers' => [
+        'factories' => [
+            \CloudMessaging\Controller\IndexController::class => \CloudMessaging\Controller\IndexControllerFactory::class,
+        ]
+    ],
+    'view_manager' => [
+        'template_map' => [
+            'cloud-messaging/index/index' => __DIR__ . '/../view/cloud-messaging/index/index.phtml'
         ]
     ],
     'cloud_messaging' => [
@@ -21,7 +29,9 @@ return [
              * or IDs) receiving a multicast message. It must contain at least 1
              * and at most 1000 registration tokens.
              */
-            "registration_ids" => [],
+            "registration_ids" => [
+                'fXKJ4aByGrQ:APA91bEWGPHUhRd5rCduAeRscx7tlntb8tAM67VunDhz8aPnff8gvuNfowgxmuU0Cm4nd4qqgF5ZkOJ5ja15uMPSFRpgsTD50drpv1VMSo0Cj28zJFi6L5Cr3DLNdYhi3KobzpdAU1W_'
+            ],
             /*
              * Sets the priority of the message. Valid values are "normal" and
              * "high." On iOS, these correspond to APNs priority 5 and 10.

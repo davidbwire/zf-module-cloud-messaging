@@ -31,6 +31,12 @@ class Message
 
     /**
      *
+     * @var array
+     */
+    protected $registrationIds = [];
+
+    /**
+     *
      * @param string $apiKey
      */
     public function __construct($apiKey, array $cloudMessagingConfig)
@@ -46,16 +52,28 @@ class Message
      * @return false|MulticastResponse
      * @throws \RuntimeException
      */
-    public function send(array $registrationIds = null,
+    public function send(array $registrationIds = [],
             array $gcmDataOptions = ["title" => "You have a message."])
     {
 
         $gcmConfig = $this->cloudMessagingConfig['gcm_config'];
-        $gcmConfig['registration_ids'] = empty($registrationIds) ? '' : $registrationIds;
+        if (count($registrationIds)) {
+            // we have some ids passed thus replace the configured values
+            $gcmConfig['registration_ids'] = $registrationIds;
+        }
+        // remove actions key if it's not specified
+        if (!isset($gcmDataOptions['actions']) ||
+                empty($gcmDataOptions['actions'])) {
+            if (array_key_exists('actions', $gcmConfig['data'])) {
+                unset($gcmConfig['data']['actions']);
+            }
+        }
+        // set the id's for later use
+        $this->registrationIds = $gcmConfig['registration_ids'];
 
         // add or replace data on  $gcmConfig
 
-        if ($gcmDataOptions !== null) {
+        if (!empty($gcmDataOptions)) {
             foreach ($gcmDataOptions as $key => $value) {
                 $gcmConfig['data'][$key] = $value;
             }
@@ -105,7 +123,8 @@ class Message
         // check code
         if ($responseCode === 200) {
             // all went well
-            return $this->processMultiCastResponseData($aResponseData, 200);
+            return $this->processMultiCastResponseData($aResponseData, 200,
+                            $gcmConfig);
         } else {
             /**
              * GCM error occured
@@ -115,7 +134,7 @@ class Message
              * 5xx 	Errors in the 500-599 range (such as 500 or 503) indicate that there was an internal error in the GCM connection server while trying to process the request, or that the server is temporarily unavailable (for example, because of timeouts). Sender must retry later, honoring any Retry-After header included in the response. Application servers must implement exponential back-off.
              */
             return $this->processMultiCastResponseData($aResponseData,
-                            $responseCode);
+                            $responseCode, $gcmConfig);
         }
     }
 
@@ -126,7 +145,7 @@ class Message
      * @return MulticastResponse
      */
     protected function processMultiCastResponseData(array $aResponseData,
-            $responseCode)
+            $responseCode, &$gcmConfig)
     {
 
         $success = $aResponseData['success'];
@@ -150,20 +169,36 @@ class Message
 
             $results = $aResponseData['results'];
 
-            foreach ($results as $result) {
+            foreach ($results as $index => $result) {
 
                 $messageId = isset($result['message_id']) ? $result['message_id'] : null;
                 $registrationId = isset($result['registration_id']) ? $result['registration_id'] : null;
                 $error = isset($result['error']) ? $result['error'] : null;
 
                 $result = new MulticastResult($messageId, $registrationId,
-                        $error);
+                        $error, $index);
+                // attach the original index
+                $result->setOriginalRegistrationId(
+                        $this->registrationIds[$index]);
 
-                $multicastResponse->addResult($result);
+                $multicastResponse->addResult($result, $index);
             }
         }
+        // attach the data and registration_ids
+        $multicastResponse->setJsonData($gcmConfig['data'])
+                ->setJsonRegistrationIds($gcmConfig['registration_ids']);
 
         return $multicastResponse;
+    }
+
+    /**
+     * Get a list of all registration id's sent out
+     * 
+     * @return array
+     */
+    public function getRegistrationIdsSent()
+    {
+        return $this->registrationIds;
     }
 
 }

@@ -31,20 +31,34 @@ class MulticastResult
      *
      * @var string
      */
+    private $originalRegistrationId;
+
+    /**
+     *
+     * @var string
+     */
     private $error;
+
+    /**
+     *
+     * @var int
+     */
+    private $arrayIndex;
 
     /**
      *
      * @param string $messageId
      * @param string $registrationId
      * @param string $error
+     * @param string $arrayIndex
      */
     public function __construct($messageId, $registrationId = null,
-            $error = null)
+            $error = null, $arrayIndex = null)
     {
         $this->messageId = $messageId;
         $this->registrationId = $registrationId;
         $this->error = $error;
+        $this->arrayIndex = $arrayIndex;
     }
 
     /**
@@ -109,24 +123,73 @@ class MulticastResult
 
     /**
      * Check if we should replace the original registration_id
+     * You need to replace the original id by matching the current index and
+     * the passed in index
      *
      */
-    public function replaceOriginalRegistrationId()
+    public function shouldReplaceOriginalRegistrationId()
     {
-        return !(empty($this->messageId) && empty($this->registrationId));
+        return (!empty($this->messageId) && !empty($this->registrationId));
     }
+
     /**
      *
      * @return boolean
      */
-    public function deleteOriginalRegistrationId()
+    public function shouldDeleteOriginalRegistrationId()
     {
-        return ($this->error === 'NotRegistered' || $this->error === 'InvalidRegistration');
+        return (
+                // application was uninstalled from the device
+                $this->error === 'NotRegistered' ||
+                // value got corrupted in the database
+                $this->error === 'InvalidRegistration');
     }
 
-    public function retrySendingLater()
+    /**
+     *
+     * @return boolean
+     */
+    public function shouldRetrySendingLater()
     {
         return $this->error === 'Unavailable';
+    }
+
+    /**
+     *
+     * @return string
+     */
+    public function getOriginalRegistrationId()
+    {
+        return $this->originalRegistrationId;
+    }
+
+    /**
+     *
+     * @param string $originalRegistrationId
+     * @return \CloudMessaging\GoogleCloud\MulticastResult
+     */
+    public function setOriginalRegistrationId($originalRegistrationId)
+    {
+        $this->originalRegistrationId = $originalRegistrationId;
+        return $this;
+    }
+    /**
+     *
+     * @return int
+     */
+    public function getArrayIndex()
+    {
+        return $this->arrayIndex;
+    }
+    /**
+     *
+     * @param int $arrayIndex
+     * @return \CloudMessaging\GoogleCloud\MulticastResult
+     */
+    public function setArrayIndex($arrayIndex)
+    {
+        $this->arrayIndex = $arrayIndex;
+        return $this;
     }
 
 }

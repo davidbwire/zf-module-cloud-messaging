@@ -53,6 +53,18 @@ class MulticastResponse
 
     /**
      *
+     * @var string
+     */
+    private $jsonData;
+
+    /**
+     *
+     * @var string
+     */
+    private $jsonRegistrationIds;
+
+    /**
+     *
      * @param int $success
      * @param int $failure
      * @param int $canonicalIds
@@ -70,11 +82,12 @@ class MulticastResponse
      * Add a result to the result property
      *
      * @param MulticastResult $result
+     * @param int $index
      * @return MulticastResponse Description
      */
-    public function addResult(MulticastResult $result)
+    public function addResult(MulticastResult $result, $index)
     {
-        $this->results[] = $result;
+        $this->results[$index] = $result;
         return $this;
     }
 
@@ -167,7 +180,7 @@ class MulticastResponse
         return $this;
     }
 
-   /**
+    /**
      *
      * @param array $results
      * @return \CloudMessaging\GoogleCloud\MulticastResponse
@@ -186,14 +199,15 @@ class MulticastResponse
     }
 
     /**
-     * Check if there's need to process results
+     * Check if there's need to process results object
      *
      * @return bool
      */
     public function processResults()
     {
-        return !(($this->canonicalIds === 0) && ($this->failure === 0));
+        return (($this->canonicalIds !== 0) && ($this->failure !== 0));
     }
+
     /**
      *
      * @return int
@@ -202,6 +216,7 @@ class MulticastResponse
     {
         return $this->responseCode;
     }
+
     /**
      *
      * @param int $responseCode
@@ -210,6 +225,46 @@ class MulticastResponse
     public function setResponseCode($responseCode)
     {
         $this->responseCode = $responseCode;
+        return $this;
+    }
+
+    /**
+     *
+     * @return string
+     */
+    public function getJsonData()
+    {
+        return $this->jsonData;
+    }
+
+    /**
+     *
+     * @return string
+     */
+    public function getJsonRegistrationIds()
+    {
+        return $this->jsonRegistrationIds;
+    }
+
+    /**
+     *
+     * @param array $data
+     * @return \CloudMessaging\GoogleCloud\MulticastResponse
+     */
+    public function setJsonData(array $data)
+    {
+        $this->jsonData = json_encode($data);
+        return $this;
+    }
+
+    /**
+     *
+     * @param array $registrationIds
+     * @return \CloudMessaging\GoogleCloud\MulticastResponse
+     */
+    public function setJsonRegistrationIds(array $registrationIds)
+    {
+        $this->jsonRegistrationIds = json_encode($registrationIds);
         return $this;
     }
 
