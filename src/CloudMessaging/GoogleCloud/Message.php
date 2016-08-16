@@ -188,13 +188,14 @@ class Message
                 $recipientId = array_key_exists($index, $this->userIds) ?
                         $this->userIds[$index] : null;
 
-                $multicastResult = new MulticastResult($messageId,
-                        $registrationId, $recipientId);
+                $multicastResult = new MulticastResult($recipientId);
 
                 $multicastResult->setOriginalRegistrationId(
                                 $this->registrationIds[$index])
                         ->setError($error)
-                        ->setArrayIndex($index);
+                        ->setArrayIndex($index)
+                        ->setMessageId($messageId)
+                        ->setRegistrationId($registrationId);
 
                 $multicastResponse->addMulticastResult($multicastResult, $index);
             }

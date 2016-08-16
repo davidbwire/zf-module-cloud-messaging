@@ -53,14 +53,10 @@ class MulticastResult
 
     /**
      *
-     * @param int $messageId
-     * @param string $registrationId
      * @param string $recipientId
      */
-    public function __construct($messageId, $registrationId, $recipientId)
+    public function __construct($recipientId = null)
     {
-        $this->messageId = $messageId;
-        $this->registrationId = $registrationId;
         $this->recipientId = $recipientId;
     }
 
