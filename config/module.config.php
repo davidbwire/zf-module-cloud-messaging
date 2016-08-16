@@ -3,6 +3,7 @@
 return [
     'service_manager' => [
         'factories' => [
+            CloudMessaging\Mapper\MulticastMapper::class => \CloudMessaging\Mapper\MulticastMapperFactory::class,
         ],
     ],
     'controllers' => [

@@ -20,7 +20,7 @@ class MulticastMapperFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $pushNotificationMapper = new MulticastMapper('multicast',
-                $serviceLocator->get('DbAdapter'));
+                $serviceLocator->get('dbAdapter'));
         return $pushNotificationMapper;
     }
 
