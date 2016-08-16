@@ -47,18 +47,21 @@ class MulticastResult
 
     /**
      *
-     * @param string $messageId
-     * @param string $registrationId
-     * @param string $error
-     * @param string $arrayIndex
+     * @var string
      */
-    public function __construct($messageId, $registrationId = null,
-            $error = null, $arrayIndex = null)
+    private $recipientId;
+
+    /**
+     *
+     * @param int $messageId
+     * @param string $registrationId
+     * @param string $recipientId
+     */
+    public function __construct($messageId, $registrationId, $recipientId)
     {
         $this->messageId = $messageId;
         $this->registrationId = $registrationId;
-        $this->error = $error;
-        $this->arrayIndex = $arrayIndex;
+        $this->recipientId = $recipientId;
     }
 
     /**
@@ -173,6 +176,7 @@ class MulticastResult
         $this->originalRegistrationId = $originalRegistrationId;
         return $this;
     }
+
     /**
      *
      * @return int
@@ -181,6 +185,7 @@ class MulticastResult
     {
         return $this->arrayIndex;
     }
+
     /**
      *
      * @param int $arrayIndex
@@ -189,6 +194,26 @@ class MulticastResult
     public function setArrayIndex($arrayIndex)
     {
         $this->arrayIndex = $arrayIndex;
+        return $this;
+    }
+
+    /**
+     *
+     * @return string
+     */
+    public function getRecipientId()
+    {
+        return $this->recipientId;
+    }
+
+    /**
+     *
+     * @param string $recipientId
+     * @return \CloudMessaging\GoogleCloud\MulticastResult
+     */
+    public function setRecipientId($recipientId)
+    {
+        $this->recipientId = $recipientId;
         return $this;
     }
 

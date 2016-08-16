@@ -81,13 +81,13 @@ class MulticastResponse
     /**
      * Add a result to the result property
      *
-     * @param MulticastResult $result
+     * @param MulticastResult $multicastResult
      * @param int $index
      * @return MulticastResponse Description
      */
-    public function addResult(MulticastResult $result, $index)
+    public function addMulticastResult(MulticastResult $multicastResult, $index)
     {
-        $this->results[$index] = $result;
+        $this->results[$index] = $multicastResult;
         return $this;
     }
 

@@ -37,6 +37,12 @@ class Message
 
     /**
      *
+     * @var array
+     */
+    protected $userIds = [];
+
+    /**
+     *
      * @param string $apiKey
      */
     public function __construct($apiKey, array $cloudMessagingConfig)
@@ -52,14 +58,17 @@ class Message
      * @return false|MulticastResponse
      * @throws \RuntimeException
      */
-    public function send(array $registrationIds = [],
-            array $gcmDataOptions = ["title" => "You have a message."])
+    public function send(array &$registrationIds = [],
+            array &$gcmDataOptions = ["title" => "You have a message."],
+            &$userIds = [])
     {
 
         $gcmConfig = $this->cloudMessagingConfig['gcm_config'];
         if (count($registrationIds)) {
             // we have some ids passed thus replace the configured values
             $gcmConfig['registration_ids'] = $registrationIds;
+            // since we're using custom reg_ids set user_ids
+            $this->userIds = $userIds;
         }
         // remove actions key if it's not specified
         if (!isset($gcmDataOptions['actions']) ||
@@ -175,13 +184,19 @@ class Message
                 $registrationId = isset($result['registration_id']) ? $result['registration_id'] : null;
                 $error = isset($result['error']) ? $result['error'] : null;
 
-                $result = new MulticastResult($messageId, $registrationId,
-                        $error, $index);
                 // attach the original index
-                $result->setOriginalRegistrationId(
-                        $this->registrationIds[$index]);
+                $recipientId = array_key_exists($index, $this->userIds) ?
+                        $this->userIds[$index] : null;
 
-                $multicastResponse->addResult($result, $index);
+                $multicastResult = new MulticastResult($messageId,
+                        $registrationId, $recipientId);
+
+                $multicastResult->setOriginalRegistrationId(
+                                $this->registrationIds[$index])
+                        ->setError($error)
+                        ->setArrayIndex($index);
+
+                $multicastResponse->addMulticastResult($multicastResult, $index);
             }
         }
         // attach the data and registration_ids
