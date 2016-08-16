@@ -28,6 +28,10 @@ return [
              * This parameter specifies a list of devices (registration tokens,
              * or IDs) receiving a multicast message. It must contain at least 1
              * and at most 1000 registration tokens.
+             *
+             * Note: If you have to use registration_ids values set manually
+             * (under this key), remember to provide corresponding userIds when
+             * invoking $message->send
              */
             "registration_ids" => [
                 'fXKJ4aByGrQ:APA91bEWGPHUhRd5rCduAeRscx7tlntb8tAM67VunDhz8aPnff8gvuNfowgxmuU0Cm4nd4qqgF5ZkOJ5ja15uMPSFRpgsTD50drpv1VMSo0Cj28zJFi6L5Cr3DLNdYhi3KobzpdAU1W_'
@@ -98,6 +102,9 @@ return [
                 "content_available" => "1",
                 /**
                  * Optional. Notification action buttons
+                 * 
+                 * Note: This key is auto_deleted locally
+                 * (within this codebase) if not provided                 *
                  */
                 "actions" => [
 
