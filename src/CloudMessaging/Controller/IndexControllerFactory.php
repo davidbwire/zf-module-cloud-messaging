@@ -17,9 +17,10 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 class IndexControllerFactory implements FactoryInterface
 {
 
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function createService(ServiceLocatorInterface $controllerManager)
     {
-        $indexController = new IndexController($serviceLocator->get('loggerService'));
+        $sl = $controllerManager->getServiceLocator();
+        $indexController = new IndexController($sl->get('loggerService'));
         return $indexController;
     }
 
