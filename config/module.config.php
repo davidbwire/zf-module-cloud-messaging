@@ -107,9 +107,13 @@ return [
                  * types of notifications that might be received.
                  * Named after table names.
                  * 
-                 * user_inbox, software_update etc
+                 * user_inbox etc
                  */
                 "notification_type" => 'lesson_for_the_day',
+                /**
+                 * User device compares with the current device version
+                 */
+                "latest_android_version" => '1',
                 /**
                  * Optional. Notification action buttons
                  * 
