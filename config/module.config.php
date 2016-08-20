@@ -102,6 +102,15 @@ return [
                  */
                 "content_available" => "1",
                 /**
+                 * Key used on client side to decide what to do upon receiving
+                 * notification. Distinguishes the different
+                 * types of notifications that might be received.
+                 * Named after table names.
+                 * 
+                 * user_inbox, software_update etc
+                 */
+                "notification_type" => 'lesson_for_the_day',
+                /**
                  * Optional. Notification action buttons
                  * 
                  * Note: This key is auto_deleted locally
