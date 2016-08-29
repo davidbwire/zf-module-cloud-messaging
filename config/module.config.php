@@ -113,7 +113,12 @@ return [
                 /**
                  * User device compares with the current device version
                  */
-                "latest_android_version" => '1',
+                "meta" => [
+                    // compares with local version and suggests update
+                    "latest_android_version" => 1,
+                    // if 1 app must be updated
+                    "force_android_update" => 0,
+                ],
                 /**
                  * Optional. Notification action buttons
                  * 
