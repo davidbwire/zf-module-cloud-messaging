@@ -93,6 +93,12 @@ class Message
                 $gcmConfig['data'][$key] = $value;
             }
         }
+
+        return $this->sendViaCurl($gcmConfig);
+    }
+
+    private function sendViaCurl(array &$gcmConfig)
+    {
         // prepare the headers
         $headers = [
             'Authorization: key=' . $this->apiKey,
@@ -143,7 +149,7 @@ class Message
         } else {
             /**
              * GCM error occured
-             * 
+             *
              * 400 	Only applies for JSON requests. Indicates that the request could not be parsed as JSON, or it contained invalid fields (for instance, passing a string where a number was expected). The exact failure reason is described in the response and the problem should be addressed before the request can be retried.
              * 401 	There was an error authenticating the sender account.
              * 5xx 	Errors in the 500-599 range (such as 500 or 503) indicate that there was an internal error in the GCM connection server while trying to process the request, or that the server is temporarily unavailable (for example, because of timeouts). Sender must retry later, honoring any Retry-After header included in the response. Application servers must implement exponential back-off.
