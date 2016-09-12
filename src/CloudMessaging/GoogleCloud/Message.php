@@ -45,7 +45,7 @@ class Message
      *
      * @var array
      */
-    protected $responseData;
+    protected $responseData = [];
 
     /**
      *
@@ -322,6 +322,23 @@ class Message
     public function getRegistrationIdsSent()
     {
         return $this->registrationIds;
+    }
+
+    /**
+     *
+     * @return array
+     */
+    public function getResponseData()
+    {
+        return $this->responseData;
+    }
+    /**
+     *
+     * @return int
+     */
+    public function getResponseCode()
+    {
+        return $this->responseCode;
     }
 
 }
