@@ -107,7 +107,7 @@ return [
                  * 
                  * user_inbox etc
                  */
-                "notification_type" => 'lesson_for_the_day',
+                "notification_category" => 'lesson_for_the_day',
                 /**
                  * User device compares with the current device version
                  */
