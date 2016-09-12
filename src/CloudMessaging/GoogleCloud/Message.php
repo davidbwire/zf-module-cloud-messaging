@@ -67,8 +67,14 @@ class Message
         if (count($registrationIds)) {
             // we have some ids passed thus replace the configured values
             $gcmConfig['registration_ids'] = $registrationIds;
+            // unset the to since we have reg_ids
+            unset($gcmConfig['to']);
             // since we're using custom reg_ids set user_ids
             $this->userIds = $userIds;
+        } else {
+            // reg_ids need to be unset so that we use
+            // to key
+            unset($gcmConfig['registration_ids']);
         }
         // remove actions key if it's not specified
         if (!isset($gcmDataOptions['actions']) ||
