@@ -55,7 +55,7 @@ return [
              * same messages when the device comes back online or becomes active
              * (see delay_while_idle)
              */
-            "collapse_key" => "Update Available",
+            //DON'T use it for now "collapse_key" => "Update Available",
             /*
              * On iOS, use this field to represent content-available in the APNS
              * payload. When a notification or message is sent and this is set
@@ -73,7 +73,7 @@ return [
              * This parameter specifies the package name of the application
              * where the registration tokens must match in order to receive the message.
              */
-            "restricted_package_name" => "com.ionicframework.notisha328376",
+            "restricted_package_name" => "com.notisha.mobile",
             /*
              * This parameter, when set to true, allows developers to test a
              * request without actually sending a message.
