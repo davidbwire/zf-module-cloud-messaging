@@ -17,7 +17,7 @@ return [
         ]
     ],
     'cloud_messaging' => [
-        "gcm_endpoint" => "https://android.googleapis.com/gcm/send",
+        //"gcm_endpoint" => "https://android.googleapis.com/gcm/send",
         //"gcm_api_key" => "Your api key - not here for security reasons",
         "gcm_config" => [
             /*
