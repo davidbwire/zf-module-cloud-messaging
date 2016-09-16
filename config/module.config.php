@@ -117,6 +117,7 @@ return [
                     // if 1 app must be updated
                     "force_android_update" => 0,
                 ],
+                "image" => "icon",
                 /**
                  * Optional. Notification action buttons
                  * 
