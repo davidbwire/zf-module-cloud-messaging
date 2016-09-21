@@ -262,7 +262,7 @@ class MulticastResponse
      * @param array $registrationIds
      * @return \CloudMessaging\GoogleCloud\MulticastResponse
      */
-    public function setJsonRegistrationIds(array $registrationIds)
+    public function setJsonRegistrationIds(array $registrationIds = [])
     {
         $this->jsonRegistrationIds = json_encode($registrationIds);
         return $this;

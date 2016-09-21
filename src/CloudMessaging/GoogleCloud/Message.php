@@ -95,8 +95,10 @@ class Message
                 unset($gcmConfig['data']['actions']);
             }
         }
-        // set the id's for later use
-        $this->registrationIds = $gcmConfig['registration_ids'];
+        if (array_key_exists('registration_ids', $gcmConfig)) {
+            // set the id's for later use
+            $this->registrationIds = $gcmConfig['registration_ids'];
+        }
 
         // add or replace data on  $gcmConfig
 
@@ -223,6 +225,7 @@ class Message
             return false;
         }
     }
+
     /**
      *
      * @param array $gcmConfig
@@ -310,6 +313,10 @@ class Message
         // attach the data and registration_ids
         $multicastResponse->setJsonData($gcmConfig['data'])
                 ->setJsonRegistrationIds($gcmConfig['registration_ids']);
+        if (array_key_exists('registration_ids', $gcmConfig)) {
+            $multicastResponse
+                    ->setJsonRegistrationIds($gcmConfig['registration_ids']);
+        }
 
         return $multicastResponse;
     }
@@ -332,6 +339,7 @@ class Message
     {
         return $this->responseData;
     }
+
     /**
      *
      * @return int
