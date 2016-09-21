@@ -113,9 +113,11 @@ return [
                  */
                 "meta" => [
                     // compares with local version and suggests update
-                    "latest_android_version" => 1,
+                    "latest_android_version_code" => 1,
                     // if 1 app must be updated
-                    "force_android_update" => 0,
+                    "latest_deprecated_android_version_code" => null,
+                    // when it will be deprecated
+                    "eol_latest_deprecated_android_version_code" => time() + (30 * 86400)
                 ],
                 "image" => "icon",
                 /**
